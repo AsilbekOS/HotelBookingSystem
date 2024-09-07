@@ -1,0 +1,972 @@
+definitions:
+  bookingproto.BookingResponse:
+    properties:
+      bookingID:
+        type: integer
+      checkInDate:
+        type: string
+      checkOutDate:
+        type: string
+      hotelID:
+        type: integer
+      roomID:
+        type: integer
+      roomType:
+        type: string
+      status:
+        type: string
+      totalAmount:
+        type: number
+      userID:
+        type: integer
+    type: object
+  bookingproto.CancelBookingResponse:
+    properties:
+      bookingID:
+        type: integer
+      message:
+        type: string
+    type: object
+  bookingproto.CreateBookingRequest:
+    properties:
+      checkInDate:
+        type: string
+      checkOutDate:
+        type: string
+      hotelID:
+        type: integer
+      roomID:
+        type: integer
+      roomType:
+        type: string
+      totalAmount:
+        type: number
+      userID:
+        type: integer
+    type: object
+  bookingproto.ListUserBookingsResponse:
+    properties:
+      bookings:
+        items:
+          $ref: '#/definitions/bookingproto.BookingResponse'
+        type: array
+    type: object
+  bookingproto.UpdateBookingRequest:
+    properties:
+      bookingID:
+        type: integer
+      checkInDate:
+        type: string
+      checkOutDate:
+        type: string
+      status:
+        type: string
+      totalAmount:
+        type: number
+    type: object
+  hotelproto.CheckRoomAvailabilityRequest:
+    properties:
+      hotelID:
+        type: integer
+    type: object
+  hotelproto.CreateHotelRequest:
+    properties:
+      address:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      rating:
+        type: number
+    type: object
+  hotelproto.CreateRoomRequest:
+    properties:
+      availability:
+        type: boolean
+      hotelID:
+        type: integer
+      pricePerNight:
+        type: number
+      roomType:
+        type: string
+    type: object
+  hotelproto.CreateRoomResponse:
+    properties:
+      room:
+        $ref: '#/definitions/hotelproto.Rooms'
+    type: object
+  hotelproto.DeleteHotelRequest:
+    properties:
+      hotelID:
+        type: integer
+    type: object
+  hotelproto.DeleteRoomResponse:
+    properties:
+      success:
+        type: boolean
+    type: object
+  hotelproto.GetHotelDetailsResponse:
+    properties:
+      address:
+        type: string
+      hotelID:
+        type: integer
+      location:
+        type: string
+      name:
+        type: string
+      rating:
+        type: number
+      rooms:
+        items:
+          $ref: '#/definitions/hotelproto.Room'
+        type: array
+    type: object
+  hotelproto.GetRoomDetailsResponse:
+    properties:
+      availability:
+        type: boolean
+      hotelID:
+        type: integer
+      pricePerNight:
+        type: number
+      roomID:
+        type: integer
+      roomType:
+        type: string
+    type: object
+  hotelproto.GetRoomsResponse:
+    properties:
+      rooms:
+        items:
+          $ref: '#/definitions/hotelproto.Rooms'
+        type: array
+    type: object
+  hotelproto.Room:
+    properties:
+      availability:
+        type: boolean
+      pricePerNight:
+        type: number
+      roomType:
+        type: string
+    type: object
+  hotelproto.Rooms:
+    properties:
+      availability:
+        type: boolean
+      hotelID:
+        type: integer
+      pricePerNight:
+        type: number
+      roomID:
+        type: integer
+      roomType:
+        type: string
+    type: object
+  hotelproto.UpdateRoomRequest:
+    properties:
+      availability:
+        type: boolean
+      pricePerNight:
+        type: number
+      roomID:
+        type: integer
+      roomType:
+        type: string
+    type: object
+  hotelproto.UpdateRoomResponse:
+    properties:
+      room:
+        $ref: '#/definitions/hotelproto.Rooms'
+    type: object
+  models.ForbiddenError:
+    properties:
+      message:
+        type: string
+    type: object
+  models.StandartError:
+    properties:
+      error: {}
+    type: object
+  models.UnauthorizedError:
+    properties:
+      message:
+        type: string
+    type: object
+  userproto.LoginUserRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  userproto.RegisterUserRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  userproto.VerifyRequest:
+    properties:
+      email:
+        type: string
+      verifycode:
+        type: string
+    type: object
+host: localhost:7777
+info:
+  contact: {}
+  description: This swagger UI was created by Asilbek Xolmatov
+  title: 'Project: HOTEL BOOKING SYSTEM'
+  version: "1.0"
+paths:
+  /api/bookings:
+    post:
+      consumes:
+      - application/json
+      description: Bu endpoint yangi bronlash yaratish va tasdiqlash uchun ishlatiladi
+      parameters:
+      - description: Create booking request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/bookingproto.CreateBookingRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Booking created and confirmed
+          schema:
+            $ref: '#/definitions/bookingproto.BookingResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.UnauthorizedError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Create and confirm a booking
+      tags:
+      - Booking
+  /api/bookings/{bookingID}:
+    delete:
+      consumes:
+      - application/json
+      description: Bu endpoint ma'lum bir bronlashni bekor qilish uchun ishlatiladi
+      parameters:
+      - description: Booking ID
+        in: query
+        name: bookingID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Booking cancelled
+          schema:
+            $ref: '#/definitions/bookingproto.CancelBookingResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.UnauthorizedError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Cancel a booking
+      tags:
+      - Booking
+    get:
+      consumes:
+      - application/json
+      description: Bu endpoint ma'lum bir bronlash tafsilotlarini olish uchun ishlatiladi
+      parameters:
+      - description: Booking ID
+        in: query
+        name: bookingID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Booking details
+          schema:
+            $ref: '#/definitions/bookingproto.BookingResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.UnauthorizedError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Get booking details
+      tags:
+      - Booking
+    put:
+      consumes:
+      - application/json
+      description: Bu endpoint mavjud bronlash tafsilotlarini yangilash uchun ishlatiladi
+      parameters:
+      - description: Booking ID
+        in: query
+        name: bookingID
+        required: true
+        type: integer
+      - description: Update booking details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/bookingproto.UpdateBookingRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated booking details
+          schema:
+            $ref: '#/definitions/bookingproto.BookingResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.UnauthorizedError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Update booking details
+      tags:
+      - Booking
+  /api/hotels:
+    get:
+      consumes:
+      - application/json
+      description: Bu endpoint mavjud mehmonxonalar ro'yxatini olish uchun ishlatiladi
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Get GetHotels
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "403":
+          description: Forbidden error
+          schema:
+            $ref: '#/definitions/models.ForbiddenError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Get list of hotels
+      tags:
+      - Hotel
+    post:
+      consumes:
+      - application/json
+      description: Bu endpoint yangi Mehmonxonani ro'yxatdan o'tkazish uchun ishlatiladi
+        uchun ishlatiladi
+      parameters:
+      - description: CreateHotelRequest
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/hotelproto.CreateHotelRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Post Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "403":
+          description: Forbidden error
+          schema:
+            $ref: '#/definitions/models.ForbiddenError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Create hotel
+      tags:
+      - Hotel
+  /api/hotels/delete:
+    delete:
+      consumes:
+      - application/json
+      description: Bu endpoint ma'lum bir mehmonxonani o'chirish uchun ishlatiladi
+      parameters:
+      - description: 'Hotel ID: '
+        in: query
+        name: hotelID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Delete Room
+          schema:
+            $ref: '#/definitions/hotelproto.DeleteHotelRequest'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "403":
+          description: Forbidden error
+          schema:
+            $ref: '#/definitions/models.ForbiddenError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Delete room
+      tags:
+      - Hotel
+  /api/hotels/rooms/availability:
+    get:
+      consumes:
+      - application/json
+      description: Bu endpoint ma'lum bir mehmonxona haqidagi mavjud xonalar ma'lumotlarni
+        olish uchun ishlatiladi
+      parameters:
+      - description: 'Hotel ID: '
+        in: query
+        name: hotelID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Room Availability
+          schema:
+            $ref: '#/definitions/hotelproto.CheckRoomAvailabilityRequest'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "403":
+          description: Forbidden error
+          schema:
+            $ref: '#/definitions/models.ForbiddenError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Check Room Availability
+      tags:
+      - Hotel
+  /api/hotelsid:
+    get:
+      consumes:
+      - application/json
+      description: Bu endpoint ma'lum bir mehmonxona haqidagi batafsil ma'lumotlarni
+        olish uchun ishlatiladi
+      parameters:
+      - description: 'Hotel ID: '
+        in: query
+        name: hotel_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Hotel details
+          schema:
+            $ref: '#/definitions/hotelproto.GetHotelDetailsResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "403":
+          description: Forbidden error
+          schema:
+            $ref: '#/definitions/models.ForbiddenError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Get hotel details
+      tags:
+      - Hotel
+  /api/rooms:
+    get:
+      consumes:
+      - application/json
+      description: Bu endpoint ma'lum bir mehmonxona uchun barcha xonalarni olish
+        uchun ishlatiladi
+      parameters:
+      - description: Hotel ID
+        in: query
+        name: hotelID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Rooms list
+          schema:
+            $ref: '#/definitions/hotelproto.GetRoomsResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.UnauthorizedError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Get rooms by hotel ID
+      tags:
+      - Room
+    post:
+      consumes:
+      - application/json
+      description: Bu endpoint yangi xona yaratish uchun ishlatiladi
+      parameters:
+      - description: CreateRoomRequest
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/hotelproto.CreateRoomRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Room created
+          schema:
+            $ref: '#/definitions/hotelproto.CreateRoomResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "403":
+          description: Forbidden error
+          schema:
+            $ref: '#/definitions/models.ForbiddenError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Create room
+      tags:
+      - Room
+  /api/rooms/delete:
+    delete:
+      consumes:
+      - application/json
+      description: Bu endpoint ma'lum bir xonani o'chirish uchun ishlatiladi
+      parameters:
+      - description: Room ID
+        in: query
+        name: roomID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Room deleted
+          schema:
+            $ref: '#/definitions/hotelproto.DeleteRoomResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.UnauthorizedError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Delete room
+      tags:
+      - Room
+  /api/rooms/update:
+    put:
+      consumes:
+      - application/json
+      description: Bu endpoint ma'lum bir xona ma'lumotlarini yangilash uchun ishlatiladi
+      parameters:
+      - description: Room ID
+        in: query
+        name: roomID
+        required: true
+        type: string
+      - description: UpdateRoomRequest
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/hotelproto.UpdateRoomRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Room updated
+          schema:
+            $ref: '#/definitions/hotelproto.UpdateRoomResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.UnauthorizedError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Update room
+      tags:
+      - Room
+  /api/roomsbyid:
+    get:
+      consumes:
+      - application/json
+      description: Bu endpoint ma'lum bir xona haqidagi ma'lumotlarni olish uchun
+        ishlatiladi
+      parameters:
+      - description: Room ID
+        in: query
+        name: room_ID
+        required: true
+        type: string
+      - description: Hotel ID
+        in: query
+        name: hotel_ID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Room details
+          schema:
+            $ref: '#/definitions/hotelproto.GetRoomDetailsResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.UnauthorizedError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Get room by ID
+      tags:
+      - Room
+  /api/users:
+    post:
+      consumes:
+      - application/json
+      description: Bu endpoint yangi foydalanuvchini ro'yxatdan o'tkazish uchun ishlatiladi
+        uchun ishlatiladi
+      parameters:
+      - description: RegisterUserRequest
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/userproto.RegisterUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Get verified
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "403":
+          description: Forbidden error
+          schema:
+            $ref: '#/definitions/models.ForbiddenError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Register User
+      tags:
+      - User
+  /api/users/:
+    get:
+      consumes:
+      - application/json
+      description: Bu endpoint foydalanuvchi uchun barcha bronlashlarni olish uchun
+        ishlatiladi
+      parameters:
+      - description: User ID
+        in: query
+        name: userID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of user bookings
+          schema:
+            $ref: '#/definitions/bookingproto.ListUserBookingsResponse'
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.UnauthorizedError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: List all bookings for a user
+      tags:
+      - Booking
+  /api/users/login:
+    post:
+      consumes:
+      - application/json
+      description: Bu endpoint foydalanuvchi profiligi kirish uchun ishlatiladi
+      parameters:
+      - description: LoginUserRequest
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/userproto.LoginUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Login successful
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "403":
+          description: Forbidden error
+          schema:
+            $ref: '#/definitions/models.ForbiddenError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: LOGIN User
+      tags:
+      - User
+  /api/users/profile:
+    get:
+      consumes:
+      - application/json
+      description: Bu endpoint foydalanuvchi profilini olish uchun ishlatiladi
+      parameters:
+      - description: 'Token: '
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: 'User ID: '
+        in: query
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "403":
+          description: Forbidden error
+          schema:
+            $ref: '#/definitions/models.ForbiddenError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: PROFILE User
+      tags:
+      - User
+  /api/users/profile/delete:
+    delete:
+      consumes:
+      - application/json
+      description: Bu endpoint foydalanuvchi profilini o'chirish uchun ishlatiladi
+      parameters:
+      - description: 'Token: '
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: 'User ID: '
+        in: query
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Delete successful
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "403":
+          description: Forbidden error
+          schema:
+            $ref: '#/definitions/models.ForbiddenError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: DELETE User
+      tags:
+      - User
+  /api/users/verify:
+    post:
+      consumes:
+      - application/json
+      description: Bu endpoint foydalanuvchi verifikatsiyadan otish uchun ishlatiladi
+      parameters:
+      - description: VerifyRequest
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/userproto.VerifyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Verify successful
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+        "403":
+          description: Forbidden error
+          schema:
+            $ref: '#/definitions/models.ForbiddenError'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.StandartError'
+      security:
+      - BearerAuth: []
+      summary: Verify User
+      tags:
+      - User
+schemes:
+- https
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

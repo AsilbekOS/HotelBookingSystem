@@ -1,0 +1,1505 @@
+{
+    "schemes": [
+        "https"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "This swagger UI was created by Asilbek Xolmatov",
+        "title": "Project: HOTEL BOOKING SYSTEM",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:7777",
+    "paths": {
+        "/api/bookings": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint yangi bronlash yaratish va tasdiqlash uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Create and confirm a booking",
+                "parameters": [
+                    {
+                        "description": "Create booking request",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/bookingproto.CreateBookingRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Booking created and confirmed",
+                        "schema": {
+                            "$ref": "#/definitions/bookingproto.BookingResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.UnauthorizedError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/bookings/{bookingID}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint ma'lum bir bronlash tafsilotlarini olish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Get booking details",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Booking ID",
+                        "name": "bookingID",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Booking details",
+                        "schema": {
+                            "$ref": "#/definitions/bookingproto.BookingResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.UnauthorizedError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint mavjud bronlash tafsilotlarini yangilash uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Update booking details",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Booking ID",
+                        "name": "bookingID",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "Update booking details",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/bookingproto.UpdateBookingRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated booking details",
+                        "schema": {
+                            "$ref": "#/definitions/bookingproto.BookingResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.UnauthorizedError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint ma'lum bir bronlashni bekor qilish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Cancel a booking",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Booking ID",
+                        "name": "bookingID",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Booking cancelled",
+                        "schema": {
+                            "$ref": "#/definitions/bookingproto.CancelBookingResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.UnauthorizedError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hotels": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint mavjud mehmonxonalar ro'yxatini olish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel"
+                ],
+                "summary": "Get list of hotels",
+                "responses": {
+                    "201": {
+                        "description": "Get GetHotels",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ForbiddenError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint yangi Mehmonxonani ro'yxatdan o'tkazish uchun ishlatiladi uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel"
+                ],
+                "summary": "Create hotel",
+                "parameters": [
+                    {
+                        "description": "CreateHotelRequest",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/hotelproto.CreateHotelRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Post Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ForbiddenError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hotels/delete": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint ma'lum bir mehmonxonani o'chirish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel"
+                ],
+                "summary": "Delete room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Hotel ID: ",
+                        "name": "hotelID",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete Room",
+                        "schema": {
+                            "$ref": "#/definitions/hotelproto.DeleteHotelRequest"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ForbiddenError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hotels/rooms/availability": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint ma'lum bir mehmonxona haqidagi mavjud xonalar ma'lumotlarni olish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel"
+                ],
+                "summary": "Check Room Availability",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Hotel ID: ",
+                        "name": "hotelID",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Room Availability",
+                        "schema": {
+                            "$ref": "#/definitions/hotelproto.CheckRoomAvailabilityRequest"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ForbiddenError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hotelsid": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint ma'lum bir mehmonxona haqidagi batafsil ma'lumotlarni olish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel"
+                ],
+                "summary": "Get hotel details",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Hotel ID: ",
+                        "name": "hotel_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Hotel details",
+                        "schema": {
+                            "$ref": "#/definitions/hotelproto.GetHotelDetailsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ForbiddenError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/rooms": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint ma'lum bir mehmonxona uchun barcha xonalarni olish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Room"
+                ],
+                "summary": "Get rooms by hotel ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Hotel ID",
+                        "name": "hotelID",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rooms list",
+                        "schema": {
+                            "$ref": "#/definitions/hotelproto.GetRoomsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.UnauthorizedError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint yangi xona yaratish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Room"
+                ],
+                "summary": "Create room",
+                "parameters": [
+                    {
+                        "description": "CreateRoomRequest",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/hotelproto.CreateRoomRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Room created",
+                        "schema": {
+                            "$ref": "#/definitions/hotelproto.CreateRoomResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ForbiddenError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/rooms/delete": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint ma'lum bir xonani o'chirish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Room"
+                ],
+                "summary": "Delete room",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Room ID",
+                        "name": "roomID",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Room deleted",
+                        "schema": {
+                            "$ref": "#/definitions/hotelproto.DeleteRoomResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.UnauthorizedError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/rooms/update": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint ma'lum bir xona ma'lumotlarini yangilash uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Room"
+                ],
+                "summary": "Update room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Room ID",
+                        "name": "roomID",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "UpdateRoomRequest",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/hotelproto.UpdateRoomRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Room updated",
+                        "schema": {
+                            "$ref": "#/definitions/hotelproto.UpdateRoomResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.UnauthorizedError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/roomsbyid": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint ma'lum bir xona haqidagi ma'lumotlarni olish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Room"
+                ],
+                "summary": "Get room by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Room ID",
+                        "name": "room_ID",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Hotel ID",
+                        "name": "hotel_ID",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Room details",
+                        "schema": {
+                            "$ref": "#/definitions/hotelproto.GetRoomDetailsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.UnauthorizedError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint yangi foydalanuvchini ro'yxatdan o'tkazish uchun ishlatiladi uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Register User",
+                "parameters": [
+                    {
+                        "description": "RegisterUserRequest",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/userproto.RegisterUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Get verified",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ForbiddenError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint foydalanuvchi uchun barcha bronlashlarni olish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "List all bookings for a user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userID",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of user bookings",
+                        "schema": {
+                            "$ref": "#/definitions/bookingproto.ListUserBookingsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/models.UnauthorizedError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/login": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint foydalanuvchi profiligi kirish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "LOGIN User",
+                "parameters": [
+                    {
+                        "description": "LoginUserRequest",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/userproto.LoginUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ForbiddenError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/profile": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint foydalanuvchi profilini olish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "PROFILE User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Token: ",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID: ",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ForbiddenError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/profile/delete": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint foydalanuvchi profilini o'chirish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "DELETE User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Token: ",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID: ",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete successful",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ForbiddenError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/verify": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Bu endpoint foydalanuvchi verifikatsiyadan otish uchun ishlatiladi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Verify User",
+                "parameters": [
+                    {
+                        "description": "VerifyRequest",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/userproto.VerifyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Verify successful",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ForbiddenError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StandartError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "bookingproto.BookingResponse": {
+            "type": "object",
+            "properties": {
+                "bookingID": {
+                    "type": "integer"
+                },
+                "checkInDate": {
+                    "type": "string"
+                },
+                "checkOutDate": {
+                    "type": "string"
+                },
+                "hotelID": {
+                    "type": "integer"
+                },
+                "roomID": {
+                    "type": "integer"
+                },
+                "roomType": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "totalAmount": {
+                    "type": "number"
+                },
+                "userID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "bookingproto.CancelBookingResponse": {
+            "type": "object",
+            "properties": {
+                "bookingID": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "bookingproto.CreateBookingRequest": {
+            "type": "object",
+            "properties": {
+                "checkInDate": {
+                    "type": "string"
+                },
+                "checkOutDate": {
+                    "type": "string"
+                },
+                "hotelID": {
+                    "type": "integer"
+                },
+                "roomID": {
+                    "type": "integer"
+                },
+                "roomType": {
+                    "type": "string"
+                },
+                "totalAmount": {
+                    "type": "number"
+                },
+                "userID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "bookingproto.ListUserBookingsResponse": {
+            "type": "object",
+            "properties": {
+                "bookings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/bookingproto.BookingResponse"
+                    }
+                }
+            }
+        },
+        "bookingproto.UpdateBookingRequest": {
+            "type": "object",
+            "properties": {
+                "bookingID": {
+                    "type": "integer"
+                },
+                "checkInDate": {
+                    "type": "string"
+                },
+                "checkOutDate": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "totalAmount": {
+                    "type": "number"
+                }
+            }
+        },
+        "hotelproto.CheckRoomAvailabilityRequest": {
+            "type": "object",
+            "properties": {
+                "hotelID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "hotelproto.CreateHotelRequest": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "number"
+                }
+            }
+        },
+        "hotelproto.CreateRoomRequest": {
+            "type": "object",
+            "properties": {
+                "availability": {
+                    "type": "boolean"
+                },
+                "hotelID": {
+                    "type": "integer"
+                },
+                "pricePerNight": {
+                    "type": "number"
+                },
+                "roomType": {
+                    "type": "string"
+                }
+            }
+        },
+        "hotelproto.CreateRoomResponse": {
+            "type": "object",
+            "properties": {
+                "room": {
+                    "$ref": "#/definitions/hotelproto.Rooms"
+                }
+            }
+        },
+        "hotelproto.DeleteHotelRequest": {
+            "type": "object",
+            "properties": {
+                "hotelID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "hotelproto.DeleteRoomResponse": {
+            "type": "object",
+            "properties": {
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "hotelproto.GetHotelDetailsResponse": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "hotelID": {
+                    "type": "integer"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "number"
+                },
+                "rooms": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/hotelproto.Room"
+                    }
+                }
+            }
+        },
+        "hotelproto.GetRoomDetailsResponse": {
+            "type": "object",
+            "properties": {
+                "availability": {
+                    "type": "boolean"
+                },
+                "hotelID": {
+                    "type": "integer"
+                },
+                "pricePerNight": {
+                    "type": "number"
+                },
+                "roomID": {
+                    "type": "integer"
+                },
+                "roomType": {
+                    "type": "string"
+                }
+            }
+        },
+        "hotelproto.GetRoomsResponse": {
+            "type": "object",
+            "properties": {
+                "rooms": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/hotelproto.Rooms"
+                    }
+                }
+            }
+        },
+        "hotelproto.Room": {
+            "type": "object",
+            "properties": {
+                "availability": {
+                    "type": "boolean"
+                },
+                "pricePerNight": {
+                    "type": "number"
+                },
+                "roomType": {
+                    "type": "string"
+                }
+            }
+        },
+        "hotelproto.Rooms": {
+            "type": "object",
+            "properties": {
+                "availability": {
+                    "type": "boolean"
+                },
+                "hotelID": {
+                    "type": "integer"
+                },
+                "pricePerNight": {
+                    "type": "number"
+                },
+                "roomID": {
+                    "type": "integer"
+                },
+                "roomType": {
+                    "type": "string"
+                }
+            }
+        },
+        "hotelproto.UpdateRoomRequest": {
+            "type": "object",
+            "properties": {
+                "availability": {
+                    "type": "boolean"
+                },
+                "pricePerNight": {
+                    "type": "number"
+                },
+                "roomID": {
+                    "type": "integer"
+                },
+                "roomType": {
+                    "type": "string"
+                }
+            }
+        },
+        "hotelproto.UpdateRoomResponse": {
+            "type": "object",
+            "properties": {
+                "room": {
+                    "$ref": "#/definitions/hotelproto.Rooms"
+                }
+            }
+        },
+        "models.ForbiddenError": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.StandartError": {
+            "type": "object",
+            "properties": {
+                "error": {}
+            }
+        },
+        "models.UnauthorizedError": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "userproto.LoginUserRequest": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "userproto.RegisterUserRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "userproto.VerifyRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "verifycode": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

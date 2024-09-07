@@ -1,0 +1,145 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+service HotelService {
+	// Hotels
+	rpc CreateHotel (CreateHotelRequest) returns (CreateHotelResponse);
+	rpc GetHotels (GetHotelsRequest) returns (GetHotelsResponse);
+	rpc GetHotelDetails (GetHotelDetailsRequest) returns (GetHotelDetailsResponse);
+	rpc CheckRoomAvailability (CheckRoomAvailabilityRequest) returns (CheckRoomAvailabilityResponse);
+	rpc DeleteHotel (DeleteHotelRequest) returns (DeleteHotelResponse);
+
+	// Rooms
+	rpc CreateRoom(CreateRoomRequest) returns (CreateRoomResponse);
+	rpc GetRoomByID(GetRoomDetailsRequest) returns (GetRoomDetailsResponse);
+    rpc GetRooms(GetRoomsRequest) returns (GetRoomsResponse);
+    rpc UpdateRoom(UpdateRoomRequest) returns (UpdateRoomResponse);
+    rpc DeleteRoom(DeleteRoomRequest) returns (DeleteRoomResponse);
+}
+
+message Hotel {
+	int64 hotelID = 1;
+	string name = 2;
+	string location = 3;
+	double rating = 4;
+	string address = 5;
+}
+
+message CreateHotelRequest {
+	string name = 1;
+	string location = 2;
+	double rating = 3;
+	string address = 4;
+}
+
+message CreateHotelResponse {
+	Hotel hotel = 1;
+}
+
+message GetHotelsRequest {}
+
+message GetHotelsResponse {
+	repeated Hotel hotels = 1;
+}
+
+message GetHotelDetailsRequest {
+	int64 hotelID = 1;
+}
+
+message Room {
+	string roomType = 1;
+	double pricePerNight = 2;
+	bool availability = 3;
+}
+
+message GetHotelDetailsResponse {
+	int64 hotelID = 1;
+	string name = 2;
+	string location = 3;
+	double rating = 4;
+	string address = 5;
+	repeated Room rooms = 6;
+}
+
+message CheckRoomAvailabilityRequest {
+	int64 hotelID = 1;
+}
+
+message RoomAvailability {
+	string roomType = 1;
+	bool availableRooms = 2;
+}
+
+message CheckRoomAvailabilityResponse {
+	repeated RoomAvailability roomAvailabilities = 1;
+}
+
+message DeleteHotelRequest {
+	int64 hotelID = 1;
+}
+
+message DeleteHotelResponse {
+	bool success = 1;
+}
+
+
+// Rooms
+message Rooms {
+    int64 roomID = 1;
+    int64 hotelID = 2;
+    string roomType = 3;
+    double pricePerNight = 4;
+    bool availability = 5;
+}
+
+message CreateRoomRequest {
+    int64 hotelID = 1;
+    string roomType = 2;
+    double pricePerNight = 3;
+    bool availability = 4;
+}
+
+message CreateRoomResponse {
+    Rooms room = 1;
+}
+
+message GetRoomsRequest {
+    int64 hotelID = 1;
+}
+
+message GetRoomsResponse {
+    repeated Rooms rooms = 1;
+}
+
+message UpdateRoomRequest {
+    int64 roomID = 1;
+    string roomType = 2;
+    double pricePerNight = 3;
+    bool availability = 4;
+}
+
+message UpdateRoomResponse {
+    Rooms room = 1;
+}
+
+message DeleteRoomRequest {
+    int64 roomID = 1;
+}
+
+message DeleteRoomResponse {
+    bool success = 1;
+}
+
+message GetRoomDetailsRequest {
+    int64 roomID = 1;
+    int64 hotelID = 2;
+}
+
+message GetRoomDetailsResponse {
+    int64 roomID = 1;
+    int64 hotelID = 2;
+    string roomType = 3;
+    double pricePerNight = 4;
+    bool availability = 5;
+}

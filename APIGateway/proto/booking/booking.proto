@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+option go_package = "./bookingproto";
+
+service BookingService {
+  rpc CreateBooking(CreateBookingRequest) returns (BookingResponse);
+  rpc GetBooking(GetBookingRequest) returns (BookingResponse);
+  rpc UpdateBooking(UpdateBookingRequest) returns (BookingResponse);
+  rpc CancelBooking(CancelBookingRequest) returns (CancelBookingResponse);
+  rpc ListUserBookings(ListUserBookingsRequest) returns (ListUserBookingsResponse);
+}
+
+message CreateBookingRequest {
+  int64 userID = 1;
+  int64 hotelID = 2;
+  int64 roomID = 3;
+  string roomType = 4;
+  string checkInDate = 5; 
+  string checkOutDate = 6;
+  double totalAmount = 7;
+}
+
+message UpdateBookingRequest {
+  int64 bookingID = 1;
+  string checkInDate = 2;
+  string checkOutDate = 3;
+  double totalAmount = 4;
+  string status = 5;
+}
+
+message GetBookingRequest {
+  int64 bookingID = 1;
+}
+
+message CancelBookingRequest {
+  int64 bookingID = 1;
+  int64 roomID = 2;
+}
+
+message ListUserBookingsRequest {
+  int64 userID = 1;
+}
+
+message BookingResponse {
+  int64 bookingID = 1;
+  int64 userID = 2;
+  int64 hotelID = 3;
+  int64 roomID = 4;
+  string roomType = 5;
+  string checkInDate = 6;
+  string checkOutDate = 7;
+  double totalAmount = 8;
+  string status = 9;
+}
+
+message CancelBookingResponse {
+  string message = 1;
+  int64 bookingID = 2;
+}
+
+message ListUserBookingsResponse {
+  repeated BookingResponse bookings = 1;
+}

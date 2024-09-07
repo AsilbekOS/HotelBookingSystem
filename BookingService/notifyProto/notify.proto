@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package = "./nProto";
+
+service NotificationService {
+  rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse);
+}
+
+message SendNotificationRequest {
+  int64 userID = 1;
+  int64 bookingID = 2;
+  string message = 3;
+  string serviceType = 4;
+  string email = 5;
+}
+
+message SendNotificationResponse {
+  string status = 1;
+}

@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+service UserService {
+    rpc RegisterUser (RegisterUserRequest) returns (RegisterUserResponse);
+    rpc VerifyUser (VerifyRequest) returns (VerifyResponse);
+    rpc LoginUser (LoginUserRequest) returns (LoginUserResponse);
+    rpc GetUser (GetUserRequest) returns (GetUserResponse);
+    rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse);
+}
+
+message RegisterUserRequest {
+    string username = 1;
+    string password = 2;
+    string email = 3;
+}
+
+message RegisterUserResponse {
+    string message = 1;
+    string email = 2;
+}
+
+message LoginUserRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message LoginUserResponse {
+    string token = 1;
+    int64 expires_in = 2;  // Token amal qilish muddati (sekundlarda)
+}
+
+message GetUserRequest {
+    string user_id = 1;
+    string token = 2;
+}
+
+message GetUserResponse {
+    string user_id = 1;
+    string username = 2;
+    string email = 3;
+    string created_at = 4;
+}
+
+message DeleteUserRequest {
+    string user_id = 1;
+    string token = 2;
+}
+
+message DeleteUserResponse {
+    bool success = 1;  // O'chirish muvaffaqiyatli bo'lsa, true
+}
+
+message VerifyRequest {
+    string email = 1;
+    string verifycode = 2;
+}
+
+message VerifyResponse {
+    string user_id = 1;
+    string username = 2;
+    string email = 3;
+}
